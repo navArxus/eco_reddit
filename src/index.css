@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@font-face {
+    font-family: customfont;
+    src: url(./assets/fonts/Ubuntu-Regular.ttf);
+}
+* {
+    font-family: customfont;
+}
