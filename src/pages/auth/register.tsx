@@ -170,7 +170,7 @@ const Register = () => {
                     {(verificationformik.touched.otp && verificationformik.errors.otp) ? <p className="text-xs text-red-800" >{verificationformik.errors.otp}</p> : null}
                 </div>
                 <button type="submit" className="w-full h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " >Continue</button>
-                <p className="text-center text-md" >Wrong email ? <span onClick={e => setemailVerificationsection(false)} className="cursor-pointer text-blue-300 " >Register</span></p>
+                <p className="text-center text-md" >Wrong email ? <span onClick={() => setemailVerificationsection(false)} className="cursor-pointer text-blue-300 " >Register</span></p>
             </form> </div> :
 
                 <div className="flex items-center justify-center w-screen lg:w-[40vw] text-gray-300 h-[95vh] rounded-3xl shadow-black  bg-cover bg-center">

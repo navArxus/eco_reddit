@@ -1,7 +1,6 @@
 import Card from "./Components/Card"
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdOutlineArrowBack } from "react-icons/md";
-import { MdOutlinePeople } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

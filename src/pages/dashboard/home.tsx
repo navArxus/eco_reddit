@@ -5,21 +5,24 @@ import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react";
 import useStore from "../../store/index";
 import axios from "axios";
-const Home = () => {
-    interface Discussion {
+interface Discussion {
+    _id: string;
+    userID: {
         _id: string;
-        userID: string;
-        commentID: string[];
-        discussion: string;
-        like: string[];
-        category: string;
-        dateTime: string; // ISO date string
-        __v: number;
-        username: string;
-        isLiked: boolean
+        name: string
     }
-    const { discussion, id, hasMore, fetchDiscussions } = useStore()
-    const { ref, inView, entry } = useInView({
+    commentID: string[];
+    discussion: string;
+    like: string[];
+    category: string;
+    dateTime: string; // ISO date string
+    __v: number;
+    username: string;
+    isLiked: boolean
+}
+const Home = () => {
+    const { discussion, hasMore, fetchDiscussions } = useStore()
+    const { ref, inView } = useInView({
         /* Optional options */
         threshold: 1,
     });

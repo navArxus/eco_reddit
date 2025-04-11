@@ -1,5 +1,4 @@
 import { Outlet } from "react-router"
-import { MdOutlineExplore } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa6";
 import { GoGear } from "react-icons/go";
 import { TbPlant2 } from "react-icons/tb";
@@ -22,7 +21,7 @@ const Dashboard_layout = () => {
                     <h1 className="italic font-extrabold px-2 mb-3" >Eco-Reddit</h1>
                     <NavLink className={({ isActive }: { isActive: boolean }) => `flex items-center gap-2 w-full px-2 py-3 rounded-md hover:bg-gray-400/20 ${isActive ? "bg-gray-300/10" : "font-normal"}`} to="/dashboard/home" > <TbPlant2 size={30} />Home</NavLink>
                     {/* <NavLink className={({ isActive }: { isActive: boolean }) => `flex items-center gap-2 w-full px-2 py-3 rounded-md hover:bg-gray-400/20 ${isActive ? "bg-gray-300/10" : "font-normal"}`} to="/dashboard/discover" ><MdOutlineExplore size={30} /> Discover</NavLink> */}
-                    <button onClick={e => setisactivitytabOpen(!isactivitytabOpen)} className="cursor-pointer flex items-center gap-2 w-full px-2 py-3 rounded-md hover:bg-gray-400/20" ><FaRegBell size={30} />Activity</button>
+                    <button onClick={()  => setisactivitytabOpen(!isactivitytabOpen)} className="cursor-pointer flex items-center gap-2 w-full px-2 py-3 rounded-md hover:bg-gray-400/20" ><FaRegBell size={30} />Activity</button>
                     <NavLink className={({ isActive }: { isActive: boolean }) => `flex items-center gap-2 w-full px-2 py-3 rounded-md hover:bg-gray-400/20 ${isActive ? "bg-gray-300/10" : "font-normal"}`} to="/dashboard/saved" ><HiOutlineBookmark size={30} /> Saved</NavLink>
                 </div>
                 <div className="w-full flex text-lg items-start flex-col " >

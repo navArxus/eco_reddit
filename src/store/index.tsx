@@ -2,14 +2,18 @@ import { create } from "zustand"
 import axios from "axios";
 interface Discussion {
     _id: string;
-    userID: string;
+    userID: {
+        _id: string;
+        name: string
+    }
     commentID: string[];
     discussion: string;
     like: string[];
     category: string;
     dateTime: string; // ISO date string
     __v: number;
-    username:string
+    username: string
+    isLiked: boolean
 }
 
 interface StoreState {
