@@ -6,13 +6,13 @@ import Homepage from "./pages/Homepage";
 
 // Auth routes
 import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
+import Registerpage from "./pages/auth/Registerpage";
 import Dashboard_layout from "./pages/dashboard/Dashboard_layout";
-import Home from "./pages/dashboard/Home";
+import Dashboardhomepage from "./pages/dashboard/Dashboardhomepage";
 // import Discover from "./pages/dashboard/Discover";
-import Discussion from "./pages/dashboard/Discussion";
-import Setting from "./pages/dashboard/Setting";
-import Create from "./pages/dashboard/Create";
+import Discussionpage from "./pages/dashboard/Discussionpage";
+import Settingpage from "./pages/dashboard/Settingpage";
+import Createpage from "./pages/dashboard/Createpage";
 import Saved from "./pages/dashboard/Saved";
 
 import { ToastContainer } from 'react-toastify';
@@ -28,18 +28,18 @@ const App = () => {
         {/* Auth Routes */}
         <Route path="/auth" >
           <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="register" element={<Registerpage />} />
         </Route>
 
         {/* Dashboard Routes */}
         <Route element={<ProtectedRoute />} >
           <Route path="/dashboard" element={<Dashboard_layout />} >
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<Dashboardhomepage />} />
             {/* <Route path="discover" element={<Discover />} /> */}
-            <Route path="setting" element={<Setting />} />
-            <Route path="create" element={<Create />} />
+            <Route path="setting" element={<Settingpage />} />
+            <Route path="create" element={<Createpage />} />
             <Route path="saved" element={<Saved />} />
-            <Route path="discussion/:id" element={<Discussion />} />
+            <Route path="discussion/:id" element={<Discussionpage />} />
           </Route>
         </Route>
       </Routes>
