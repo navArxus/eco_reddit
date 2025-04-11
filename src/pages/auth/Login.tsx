@@ -3,13 +3,60 @@ import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import { useMutation } from "@tanstack/react-query"
+import { SubmitLoginData } from "../../api/auth/Login"
+import { useNavigate } from "react-router";
+import { toast } from 'react-toastify';
 interface FormValues {
   email: string,
   password: string
 }
 
 const Login = () => {
-
+  const navigate = useNavigate()
+  const loginMutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: SubmitLoginData,
+    onSuccess: (data) => {
+      if (data.data.status == true) {
+        toast.success(data.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        navigate("/dashboard/home")
+      }
+      else {
+        toast.error(data.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    },
+    onError: (err) => {
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  })
 
   const initialValues: FormValues = {
     email: "",
@@ -23,10 +70,6 @@ const Login = () => {
 
     password: Yup.string()
       .min(8, "8+ characters required. Even your ex lasted longer than this. 💔")
-      .matches(/[A-Z]/, "No uppercase? Just like your confidence, **this is nonexistent.** 😭")
-      .matches(/[a-z]/, "No lowercase? Even your **bank balance** has more variety. 💸")
-      .matches(/[0-9]/, "No numbers? Just like your **IQ score**, it's disappointingly low. 🧠")
-      .matches(/[@$!%*?&]/, "No special character? This password is as basic as your **personality.** 🙃")
       .required("No password? Ah, classic. Avoiding effort—just like you do in **everything else.** 😏")
   });
 
@@ -34,7 +77,7 @@ const Login = () => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values: FormValues) => {
-      console.log(values);
+      loginMutation.mutate(values)
     }
   })
 
@@ -61,7 +104,7 @@ const Login = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email} className="mb-2 mt-2 px-3 w-full border-2 border-gray-500 rounded-md h-[6vh]" />
-            {(formik.touched.email && formik.errors.email) ? <p className="text-xs text-red-800" >{formik.errors.email}</p> : null}
+            {(formik.touched.email && formik.errors.email) ? <p className="text-sm text-red-600" >{formik.errors.email}</p> : null}
           </div>
           <div className="w-full mb-4">
 
@@ -70,7 +113,7 @@ const Login = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password} className="mb-2 px-3 mt-2 w-full border-2 border-gray-500 rounded-md h-[6vh]" />
-            {(formik.touched.password && formik.errors.password) ? <p className="text-xs text-red-800" >{formik.errors.password}</p> : null}
+            {(formik.touched.password && formik.errors.password) ? <p className="text-sm text-red-600" >{formik.errors.password}</p> : null}
           </div>
           <div className="flex items-center justify-between" >
             <div className="flex items-center justify-start gap-2" >
@@ -80,8 +123,10 @@ const Login = () => {
               <span className="text-blue-300" >Forgot password ?</span>
             </div>
           </div>
+          {loginMutation.isPending ? <button type="submit" disabled className="w-full flex items-center justify-center h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " ><div className="loader"></div></button> :
+            <button type="submit" className="w-full h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " >Login</button>
 
-          <button type="submit" className="w-full h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " >Login</button>
+          }
           <p className="text-center text-md" >Don't have an account ? <Link to={"/auth/register"} className=" text-blue-300 " >Register</Link></p>
         </form>
       </div>

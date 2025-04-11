@@ -1,8 +1,109 @@
 @import "tailwindcss";
+
 @font-face {
     font-family: customfont;
     src: url(./assets/fonts/Ubuntu-Regular.ttf);
 }
+
 * {
     font-family: customfont;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 40px;
+    aspect-ratio: 4;
+    --_g: no-repeat radial-gradient(circle closest-side, #fff 90%, #0000);
+    background:
+        var(--_g) 0% 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 100% 50%;
+    background-size: calc(100%/3) 100%;
+    animation: l7 1s infinite linear;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader2 {
+    width: 15px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    clip-path: inset(-45px);
+    box-shadow: -60px 15px, -60px 15px, -60px 15px;
+    transform: translateY(-15px);
+    animation: l19 1s infinite linear;
+}
+
+@keyframes l19 {
+    16.67% {
+        box-shadow: -60px 15px, -60px 15px, 19px 15px
+    }
+
+    33.33% {
+        box-shadow: -60px 15px, 0px 15px, 19px 15px
+    }
+
+    40%,
+    60% {
+        box-shadow: -19px 15px, 0px 15px, 19px 15px
+    }
+
+    66.67% {
+        box-shadow: -19px 15px, 0px 15px, 60px 15px
+    }
+
+    83.33% {
+        box-shadow: -19px 15px, 60px 15px, 60px 15px
+    }
+
+    100% {
+        box-shadow: 60px 15px, 60px 15px, 60px 15px
+    }
+}
+
+/* HTML: <div class="loader"></div> */
+/* .loader2 {
+    display: inline-flex;
+    gap: 10px;
+}
+
+.loader2:before,
+.loader2:after {
+    content: "";
+    height: 20px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        linear-gradient(#222 0 0) top/100% 40% no-repeat,
+        radial-gradient(farthest-side, #000 95%, #0000) 50%/8px 8px no-repeat #fff;
+    animation: l2 1.5s infinite alternate ease-in;
+}
+
+@keyframes l2 {
+
+    0%,
+    70% {
+        background-size: 100% 40%, 8px 8px
+    }
+
+    85% {
+        background-size: 100% 120%, 8px 8px
+    }
+
+    100% {
+        background-size: 100% 40%, 8px 8px
+    }
+}
+ */
+@keyframes l7 {
+    33% {
+        background-size: calc(100%/3) 0%, calc(100%/3) 100%, calc(100%/3) 100%
+    }
+
+    50% {
+        background-size: calc(100%/3) 100%, calc(100%/3) 0%, calc(100%/3) 100%
+    }
+
+    66% {
+        background-size: calc(100%/3) 100%, calc(100%/3) 100%, calc(100%/3) 0%
+    }
 }

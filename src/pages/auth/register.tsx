@@ -4,22 +4,98 @@ import { Link } from "react-router"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query"
+import { SubmitRegisterData, SubmitOtpData } from "../../api/auth/Login"
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router";
 interface FormValues {
     email: string,
     password: string,
-    username: string
+    name: string
 }
 interface EmailverificationValues {
     otp: number | undefined
 }
 
 const Register = () => {
+    const [emailVerificationsection, setemailVerificationsection] = useState<boolean>(false)
+    const navigate = useNavigate()
 
+    const registerMutation = useMutation({
+        mutationKey: ["register"],
+        mutationFn: SubmitRegisterData,
+        onSuccess: (data) => {
+            if (data.data.status == true) {
+                toast.success(data.data.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+                setemailVerificationsection(true);
+
+            }
+            else {
+                toast.error(data.data.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+        },
+        onError: (err) => {
+            console.log(err)
+        }
+    })
+    const otpMutation = useMutation({
+        mutationKey: ["register"],
+        mutationFn: SubmitOtpData,
+        onSuccess: (data) => {
+            if (data.data.status == true) {
+                toast.success(data.data.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+
+
+            }
+            else {
+                toast.error(data.data.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+        },
+        onError: (err) => {
+            console.log(err)
+        }
+    })
 
     const initialValuesC: FormValues = {
         email: "",
         password: "",
-        username: ""
+        name: ""
     }
 
     const verificationinitialValues: EmailverificationValues = {
@@ -39,7 +115,7 @@ const Register = () => {
             .matches(/[0-9]/, "No numbers? Just like your **IQ score**, it's disappointingly low. 🧠")
             .matches(/[@$!%*?&]/, "No special character? This password is as basic as your **personality.** 🙃")
             .required("No password? Ah, classic. Avoiding effort—just like you do in **everything else.** 😏"),
-        username: Yup.string()
+        name: Yup.string()
             .min(3, "Too short. Just like your patience when your ex left you on read. 📵")
             .max(15, "Too long. Stop overcompensating—no one’s impressed, champ. 🤡")
             .matches(/^[a-zA-Z0-9_]+$/, "Invalid characters. What is this, a secret code to get back into your ex’s life? 💀")
@@ -52,21 +128,20 @@ const Register = () => {
         // .length(6, "Six digits, genius. Not five. Not seven. Were you dropped as a child? 😭")
     });
 
-    const [emailVerificationsection, setemailVerificationsection] = useState<boolean>(false)
     const formik = useFormik({
         initialValues: initialValuesC,
         validationSchema: validationSchema,
         onSubmit: (values: FormValues) => {
             console.log(values);
-            setemailVerificationsection(true);
+            registerMutation.mutate(values)
         }
     })
     const verificationformik = useFormik({
         initialValues: verificationinitialValues,
         validationSchema: emailverificationschema,
         onSubmit: (values: EmailverificationValues) => {
-            console.log(values);
-            setemailVerificationsection(true);
+            otpMutation.mutate({ ...values, email: formik.values.email })
+            navigate("/dashboard/home")
         }
     })
 
@@ -113,11 +188,11 @@ const Register = () => {
                         </div>
                         <div className="w-full mb-4">
                             <label className="w-full " htmlFor="email">Username <span className="text-red-500" >*</span> </label>
-                            <input placeholder="example" type="username" id="username"
+                            <input placeholder="example" type="text" id="name"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.username} className="mb-2 mt-2 px-3 w-full border-2 border-gray-500 rounded-md h-[6vh]" />
-                            {(formik.touched.username && formik.errors.username) ? <p className="text-xs text-red-800" >{formik.errors.username}</p> : null}
+                                value={formik.values.name} className="mb-2 mt-2 px-3 w-full border-2 border-gray-500 rounded-md h-[6vh]" />
+                            {(formik.touched.name && formik.errors.name) ? <p className="text-xs text-red-800" >{formik.errors.name}</p> : null}
                         </div>
                         <div className="w-full mb-4">
 
@@ -129,7 +204,10 @@ const Register = () => {
                             {(formik.touched.password && formik.errors.password) ? <p className="text-xs text-red-800" >{formik.errors.password}</p> : null}
                         </div>
 
-                        <button type="submit" className="w-full h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " >Register</button>
+                        {registerMutation.isPending ? <button type="submit" disabled className="w-full flex items-center justify-center h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " ><div className="loader"></div></button> :
+                            <button type="submit" className="w-full h-[6vh] mb-4 transition duration-300 ease-in-out hover:bg-blue-600 bg-blue-700 font-extrabold rounded-md mt-4 " >Register</button>
+
+                        }
                         <p className="text-center text-md" >Already have an account ? <Link to={"/auth/login"} className=" text-blue-300 " >Login</Link></p>
                     </form>
                 </div>}

@@ -10,10 +10,11 @@ const Setting = () => {
                     </div>
                 </div>
                 <div className="flex gap-4" >
-                    <button className="bg-gray-800 px-4 py-2 rounded-lg" >
+                    <input type="file" className="hidden" name="profileChange" id="profileChange" accept="image/png , image/jpg , image/jpeg" />
+                    <label htmlFor="profileChange" className="bg-gray-800 cursor-pointer px-4 py-2 rounded-lg" >
                         Change photo
-                    </button>
-                    <button className="border-2 border-red-400 px-4 py-2 rounded-lg text-red-400" >
+                    </label>
+                    <button className="border-2 border-red-400 px-4 py-2 cursor-pointer rounded-lg text-red-400" >
                         Delete photo
                     </button>
                 </div>
