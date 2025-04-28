@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useFormik } from "formik"
 import { useEffect, useState } from "react";
-import { TbH1 } from "react-icons/tb";
-import * as Yup from "yup"
+
+
 
 const Settingpage = () => {
     const [initialData, setInitialData] = useState({
