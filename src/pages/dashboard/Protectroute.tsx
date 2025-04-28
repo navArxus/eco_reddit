@@ -24,7 +24,7 @@ const ProtectedRoute = () => {
     }, []);
 
     if (isAuthenticated === null) {
-        return <div>Loading...</div>; // Or a spinner
+        return <div className="loader3" >Loading...</div>; // Or a spinner
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/auth/login" />;

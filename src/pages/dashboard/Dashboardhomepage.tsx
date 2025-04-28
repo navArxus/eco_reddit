@@ -34,7 +34,6 @@ const Dashboardhomepage = () => {
         setTrendingDiscussion(result.data.trending)
     }
     useEffect(() => {
-        fetchDiscussions()
         fetchtrendinghandler()
     }, []);
 
